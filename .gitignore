@@ -1,0 +1,14 @@
+.DS_Store
+**/.DS_Store
+node_modules/
+.npm/
+*.log
+.env
+.env.*
+!.env.example
+.idea/
+.vscode/
+*.swp
+*.swo
+.claude/
+.grok/

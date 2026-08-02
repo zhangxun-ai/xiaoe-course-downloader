@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>小鹅通批量下载</title>
+    <link rel="stylesheet" href="batch-runner.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header>
+        <p class="eyebrow">XIAOE · BATCH MVP</p>
+        <h1 id="title">正在读取专栏…</h1>
+        <p id="summary" class="summary"></p>
+      </header>
+
+      <section id="preview" class="card" hidden>
+        <div class="preview-grid">
+          <div><span>课程总数</span><strong id="totalCount">—</strong></div>
+          <div><span>首节</span><strong id="firstLesson">—</strong></div>
+          <div><span>末节</span><strong id="lastLesson">—</strong></div>
+        </div>
+        <p id="validation" class="validation"></p>
+        <div class="preview-actions">
+          <button id="startAllButton" class="primary" type="button">开始全部下载</button>
+          <button id="checkpointButton" class="secondary" type="button">只测试前三节</button>
+        </div>
+      </section>
+
+      <section id="jobPanel" class="card" hidden>
+        <div id="counts" class="counts"></div>
+        <div class="job-actions">
+          <button id="resumeButton" class="primary" type="button">继续任务</button>
+          <button id="stopButton" class="danger" type="button">停止任务</button>
+          <button id="retryButton" class="secondary" type="button">重试失败项</button>
+          <button id="overwriteButton" class="warning" type="button">覆盖冲突项并重新下载</button>
+          <button id="cleanupButton" class="quiet" type="button">清理测试任务</button>
+        </div>
+      </section>
+
+      <p id="message" class="message" role="status"></p>
+      <section class="card lesson-card">
+        <div class="list-heading">
+          <h2>课程列表</h2>
+          <button id="toggleAllButton" class="text-button" type="button">全选 / 取消</button>
+        </div>
+        <ol id="lessonList" class="lesson-list"></ol>
+      </section>
+    </main>
+
+    <script src="shared/media-utils.js"></script>
+    <script src="shared/hls.js"></script>
+    <script src="shared/download-core.js"></script>
+    <script src="shared/batch-state.js"></script>
+    <script src="shared/batch-scheduler.js"></script>
+    <script src="shared/job-store.js"></script>
+    <script src="shared/directory-store.js"></script>
+    <script src="shared/batch-files.js"></script>
+    <script src="shared/tab-resolver.js"></script>
+    <script src="shared/batch-runner-core.js"></script>
+    <script src="batch-runner.js"></script>
+  </body>
+</html>

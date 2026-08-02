@@ -1,0 +1,96 @@
+:root {
+  color-scheme: light;
+  font-family: Inter, "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: #18231c;
+  background: #eef3ef;
+}
+
+body {
+  margin: 0;
+}
+
+.shell {
+  width: min(680px, calc(100% - 40px));
+  margin: 10vh auto;
+}
+
+.eyebrow {
+  margin: 0;
+  color: #4d7b5f;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+h1 {
+  margin: 10px 0;
+  font-size: clamp(28px, 5vw, 44px);
+  line-height: 1.15;
+}
+
+.summary,
+.notice,
+.details {
+  color: #657069;
+  line-height: 1.6;
+}
+
+.card {
+  margin-top: 30px;
+  padding: 26px;
+  border: 1px solid #d4ded7;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 16px 45px rgb(40 73 52 / 8%);
+}
+
+.progress-track {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e4ebe6;
+}
+
+.progress-bar {
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: #2f7e53;
+  transition: width 180ms ease;
+}
+
+.status {
+  margin: 20px 0 6px;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.status[data-kind="error"] {
+  color: #a53838;
+}
+
+.status[data-kind="success"] {
+  color: #26734d;
+}
+
+button {
+  margin-top: 12px;
+  padding: 12px 18px;
+  border: 0;
+  border-radius: 10px;
+  color: #fff;
+  background: #26734d;
+  font-size: 15px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.notice {
+  margin-top: 18px;
+  font-size: 13px;
+}

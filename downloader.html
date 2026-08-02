@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>下载小鹅通课程</title>
+    <link rel="stylesheet" href="downloader.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <p class="eyebrow">SINGLE LESSON · MVP</p>
+      <h1 id="title">正在读取任务…</h1>
+      <p id="summary" class="summary"></p>
+
+      <section class="card">
+        <div class="progress-track" aria-hidden="true">
+          <div id="progressBar" class="progress-bar"></div>
+        </div>
+        <p id="status" class="status" role="status">请稍候。</p>
+        <p id="details" class="details"></p>
+        <button id="startButton" type="button" disabled>选择目录并开始下载</button>
+      </section>
+
+      <p class="notice">仅下载你已登录并有权访问的课程；第一版一次处理一节。</p>
+    </main>
+    <script src="shared/media-utils.js"></script>
+    <script src="shared/hls.js"></script>
+    <script src="shared/download-core.js"></script>
+    <script src="downloader.js"></script>
+  </body>
+</html>

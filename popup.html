@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>小鹅通课程下载器</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main>
+      <p class="eyebrow">XIAOE · MVP</p>
+      <h1>小鹅通课程下载器</h1>
+      <p class="hint">可下载当前单节，也可识别整个专栏后批量下载。</p>
+
+      <button id="scanButton" class="primary" type="button">识别当前课程</button>
+      <button id="batchScanButton" class="batch" type="button">识别整个专栏</button>
+
+      <section id="result" class="result" hidden>
+        <p class="label">课程</p>
+        <p id="courseTitle" class="value"></p>
+        <p class="label">检测结果</p>
+        <p id="mediaType" class="value"></p>
+        <p id="mediaUrl" class="url"></p>
+      </section>
+
+      <p id="status" class="status" role="status"></p>
+      <button id="downloadButton" class="secondary" type="button" disabled>
+        选择目录并下载
+      </button>
+    </main>
+    <script src="shared/media-utils.js"></script>
+    <script src="shared/catalog.js"></script>
+    <script src="shared/job-store.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+{
+  "total": 3,
+  "product_id": "product_sanitized_001",
+  "columnList": [
+    {
+      "resource_id": "lesson_sanitized_065",
+      "resource_title": "65. 体制内的思考",
+      "resource_type": 2,
+      "jump_url": "p/t_pc/course_pc_detail/audio/lesson_sanitized_065",
+      "can_view": 0,
+      "is_try": 0
+    },
+    {
+      "resource_id": "lesson_sanitized_066",
+      "resource_title": "66. 如何理解组织边界",
+      "resource_type": 2,
+      "jump_url": "/p/t_pc/course_pc_detail/audio/lesson_sanitized_066",
+      "can_view": 1,
+      "is_try": 1
+    },
+    {
+      "resource_id": "lesson_sanitized_067",
+      "resource_title": "67. 建立自己的判断框架",
+      "resource_type": 2,
+      "jump_url": "/p/t_pc/course_pc_detail/audio/lesson_sanitized_067",
+      "can_view": 0,
+      "is_try": 0
+    }
+  ]
+}
