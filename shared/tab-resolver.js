@@ -35,11 +35,17 @@
       const payload = decodeContentPagePayload(match[1]);
       const resourceId = String(payload?.resource_id || "").trim();
       const productId = String(payload?.product_id || "").trim();
-      if (Number(payload?.resource_type) !== 2 || !resourceId || !productId) {
+      const resourceType = Number(payload?.resource_type);
+      const detailType = resourceType === 2
+        ? "audio"
+        : resourceType === 3
+          ? "video"
+          : "";
+      if (!detailType || !resourceId || !productId) {
         return url;
       }
       const direct = new URL(
-        `/p/t_pc/course_pc_detail/audio/${encodeURIComponent(resourceId)}`,
+        `/p/t_pc/course_pc_detail/${detailType}/${encodeURIComponent(resourceId)}`,
         url.origin,
       );
       direct.searchParams.set("product_id", productId);
@@ -199,9 +205,12 @@
       const startedAt = now();
       const deadline = startedAt + timeoutMs;
       const targetUrl = normalizedPageUrl(pageUrl);
+      const resolvesVideo = /\/p\/t_pc\/course_pc_detail\/video\//.test(
+        new URL(targetUrl).pathname,
+      );
       const createPending = Promise.resolve().then(() => adapter.createTab({
         url: targetUrl,
-        active: false,
+        active: resolvesVideo,
       }));
       let tab;
       try {
@@ -240,6 +249,9 @@
         let ambiguousCandidatesSeen = false;
 
         while (now() < deadline) {
+          if (resolvesVideo && typeof adapter.activateMedia === "function") {
+            await beforeDeadline(() => adapter.activateMedia(tabId), deadline);
+          }
           const scannedEpoch = navigationStartedAt;
           const scan = await beforeDeadline(
             () => adapter.scanPage(tabId),

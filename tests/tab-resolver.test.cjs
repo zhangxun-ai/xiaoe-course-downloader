@@ -25,6 +25,9 @@ function resolverHarness(overrides = {}, resolverOptions = {}) {
     async waitForComplete(tabId, options) {
       calls.push(["waitForComplete", tabId, options]);
     },
+    async activateMedia(tabId) {
+      calls.push(["activateMedia", tabId]);
+    },
     async scanPage(tabId) {
       calls.push(["scanPage", tabId]);
       return { navigationStartedAt: currentTime, candidates: [] };
@@ -112,6 +115,39 @@ test("converts Xiaoetong content_page audio links into directly loadable PC less
     url: "https://apppf3vpmq16406.xet-pc.citv.cn/p/t_pc/course_pc_detail/audio/a_65e3ff9be4b04c1044c8f36a?product_id=p_64eee070e4b064a8373ec3a2",
     active: false,
   }]);
+});
+
+test("converts Xiaoetong video links and activates the player before scanning", async () => {
+  const { calls, resolver } = resolverHarness({
+    async scanPage() {
+      calls.push(["scanPage", 40]);
+      return {
+        navigationStartedAt: 1_000,
+        candidates: [{
+          url: "https://cdn.example.test/lesson-87.m3u8",
+          mime: "application/vnd.apple.mpegurl",
+          source: "dom",
+        }],
+      };
+    },
+  });
+  const payload = Buffer.from(JSON.stringify({
+    app_id: "apppf3vpmq16406",
+    product_id: "p_6a5463cfe4b0694c5be8f807",
+    resource_id: "v_6a6f083be4b0694c35347dec",
+    resource_type: 3,
+    type: 2,
+  })).toString("base64url");
+
+  await resolver.resolve(`https://apppf3vpmq16406.xet-pc.citv.cn/content_page/${payload}`);
+
+  assert.deepEqual(calls[0], ["createTab", {
+    url: "https://apppf3vpmq16406.xet-pc.citv.cn/p/t_pc/course_pc_detail/video/v_6a6f083be4b0694c35347dec?product_id=p_6a5463cfe4b0694c5be8f807",
+    active: true,
+  }]);
+  const activateIndex = calls.findIndex((entry) => entry[0] === "activateMedia");
+  const scanIndex = calls.findIndex((entry) => entry[0] === "scanPage");
+  assert.ok(activateIndex >= 0 && activateIndex < scanIndex);
 });
 
 test("accepts current-page DOM media despite small cross-clock navigation drift", async () => {

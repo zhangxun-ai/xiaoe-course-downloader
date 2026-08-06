@@ -119,7 +119,9 @@ function renderJob(job) {
     label.textContent = task.title;
     const state = document.createElement("span");
     state.className = `status-pill status-${task.status}`;
-    state.textContent = `${statusLabels[task.status]}${taskProgress(task)}`;
+    state.textContent = task.status === "failed" && task.error
+      ? `失败：${task.error}`
+      : `${statusLabels[task.status]}${taskProgress(task)}`;
     item.append(marker, label, state);
     return item;
   }));
@@ -190,6 +192,40 @@ function createChromeResolver() {
         files: ["content-scripts/page-scanner.js"],
       });
       return results?.[0]?.result || { candidates: [] };
+    },
+    async activateMedia(tabId) {
+      await chrome.scripting.executeScript({
+        target: { tabId },
+        world: "MAIN",
+        func: () => {
+          const isVisible = (element) => {
+            if (!element) return false;
+            const style = getComputedStyle(element);
+            const rect = element.getBoundingClientRect();
+            return style.display !== "none" && style.visibility !== "hidden" &&
+              rect.width > 0 && rect.height > 0;
+          };
+          const selectors = [
+            ".xgplayer-start", ".xgplayer-play", ".vjs-big-play-button",
+            ".prism-big-play-btn", "button[aria-label*='播放']",
+            "button[title*='播放']", "[role='button'][aria-label*='播放']",
+          ];
+          let playButton = selectors
+            .map((selector) => document.querySelector(selector))
+            .find(isVisible);
+          if (!playButton) {
+            playButton = [...document.querySelectorAll("button, [role='button']")]
+              .find((element) => isVisible(element) &&
+                /播放|play/i.test(`${element.textContent || ""} ${element.getAttribute("aria-label") || ""} ${element.getAttribute("title") || ""}`));
+          }
+          playButton?.click();
+          const video = document.querySelector("video");
+          if (video) {
+            video.muted = true;
+            void video.play().catch(() => {});
+          }
+        },
+      });
     },
     async getCandidates(tabId, navigationStartedAt) {
       const response = await chrome.runtime.sendMessage({
