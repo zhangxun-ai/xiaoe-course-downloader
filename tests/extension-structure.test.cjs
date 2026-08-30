@@ -5,6 +5,15 @@ const path = require("node:path");
 
 const root = path.resolve(__dirname, "..");
 
+function readPngDimensions(filename) {
+  const png = fs.readFileSync(path.join(root, filename));
+  assert.deepEqual([...png.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);
+  return {
+    width: png.readUInt32BE(16),
+    height: png.readUInt32BE(20),
+  };
+}
+
 test("manifest is an isolated MV3 extension with the minimum required permissions", () => {
   const manifest = JSON.parse(
     fs.readFileSync(path.join(root, "manifest.json"), "utf8"),
@@ -19,6 +28,32 @@ test("manifest is an isolated MV3 extension with the minimum required permission
   );
   assert.deepEqual(manifest.host_permissions, ["<all_urls>"]);
   assert.equal(manifest.permissions.includes("tabs"), false);
+});
+
+test("manifest declares complete extension artwork with valid PNG dimensions", () => {
+  const manifest = JSON.parse(
+    fs.readFileSync(path.join(root, "manifest.json"), "utf8"),
+  );
+  const expectedIcons = {
+    16: "icons/icon-16.png",
+    32: "icons/icon-32.png",
+    48: "icons/icon-48.png",
+    128: "icons/icon-128.png",
+  };
+
+  assert.deepEqual(manifest.icons, expectedIcons);
+  assert.deepEqual(manifest.action.default_icon, {
+    16: expectedIcons[16],
+    32: expectedIcons[32],
+  });
+  assert.equal(fs.existsSync(path.join(root, "icons/icon-source.svg")), true);
+
+  for (const [size, filename] of Object.entries(expectedIcons)) {
+    assert.deepEqual(readPngDimensions(filename), {
+      width: Number(size),
+      height: Number(size),
+    });
+  }
 });
 
 test("every extension entry point referenced by the manifest exists", () => {

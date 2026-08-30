@@ -3,6 +3,12 @@
   "name": "小鹅通课程下载器（MVP）",
   "version": "0.2.0",
   "description": "识别小鹅通单节或完整专栏的音视频，选择一次目录后自动命名下载。",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
   "permissions": [
     "activeTab",
     "scripting",
@@ -17,6 +23,10 @@
   },
   "action": {
     "default_title": "下载小鹅通课程",
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png"
+    }
   }
 }
